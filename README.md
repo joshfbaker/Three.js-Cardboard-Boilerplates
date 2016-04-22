@@ -1,4 +1,4 @@
-# Three.js-Cardboard-Boilerplates
+# Three.js + Cardboard Boilerplates
 The goal of this repository is provide a series of Three.js + Google Carboard Boilerplate pages to enable rapid prototyping of VR experiences for the web.
 
 Boilerplates include (in order of increasing sophistication):
