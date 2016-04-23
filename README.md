@@ -5,6 +5,7 @@ Boilerplates include (in order of increasing sophistication):
 
 1.  360 Picture (In Progress)
 2.  360 Video (In Progress)
-3.  "Static" non-Interactive Scene - front end only, no controls (In Progress)
-4.  "Static" Interactive Scene - front end only, with controls for navigation (In Progress)
-5.  "Dynamic" Scene - front end with back end (In Progress)
+3.  360 Audio (In Progress)
+4.  ["Static" non-Interactive Scene - front end only, no controls (In Progress)](http://joshfbaker.github.io/Three.js-Cardboard-Boilerplates/Static-non-Interactive.html)
+5.  "Static" Interactive Scene - front end only, with controls for navigation (In Progress)
+6.  "Dynamic" Scene - front end with back end (In Progress)
