@@ -3,7 +3,7 @@ The goal of this repository is provide a series of Three.js + Google Carboard Bo
 
 Boilerplates include (in order of increasing sophistication):
 
-1.  360 Picture (In Progress)
+1.  [360 Pciture](http://joshfbaker.github.io/Three.js-Cardboard-Boilerplates/360-Picture.html)
 2.  360 Video (In Progress)
 3.  360 Audio (In Progress)
 4.  ["Static" non-Interactive Scene - front end only, no controls](http://joshfbaker.github.io/Three.js-Cardboard-Boilerplates/Static-non-Interactive.html)
