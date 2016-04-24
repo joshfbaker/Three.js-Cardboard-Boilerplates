@@ -75,10 +75,7 @@
       }
       window.addEventListener('deviceorientation', setOrientationControls, true);
 
-
-      var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
-      scene.add(light);
-
+      // photosphere code and image adapted from https://github.com/turban/photosphere
       var sphere = new THREE.Mesh(
       new THREE.SphereGeometry(100, 20, 20),
       new THREE.MeshBasicMaterial({
