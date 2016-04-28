@@ -94,9 +94,7 @@
 
       var videoTexture = new THREE.VideoTexture(video);
       videoTexture.minFilter = THREE.LinearFilter;
-      var videoMaterial = new THREE.MeshBasicMaterial({
-      map: videoTexture
-      });
+      var videoMaterial = new THREE.MeshBasicMaterial({ map: videoTexture });
       videoMesh = new THREE.Mesh(sphere, videoMaterial);
       scene.add(videoMesh);
 
