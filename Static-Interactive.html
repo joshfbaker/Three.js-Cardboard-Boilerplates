@@ -51,7 +51,7 @@
       scene.add(camera);
 
       controls = new THREE.OrbitControls(camera, element);
-      controls.rotateUp(Math.PI / 4);
+      //controls.rotateUp(Math.PI / 4);
       controls.target.set(
         camera.position.x + 0.1,
         camera.position.y,
@@ -144,8 +144,9 @@
 
       //Get vector of camera direction and place the cursor along this vector
       camDir = camera.getWorldDirection();
-      scale = 5
-      cursor.position.set(camera.position.x + camDir.x * scale, camera.position.y + camDir.y * scale, camera.position.z + camDir.z * scale )
+      scale = 20
+      //cursor.position.set(camera.position.x + camDir.x * scale, camera.position.y + camDir.y * scale, camera.position.z + camDir.z * scale )
+      cursor.position.set(0 + camDir.x * scale, 10 + camDir.y * scale, 0 + camDir.z * scale )
       cursor.lookAt(camera.position)
 
       update(clock.getDelta());
