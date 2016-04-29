@@ -109,12 +109,15 @@
       cursor.position.set(5, 0, 0);
       scene.add( cursor );
 
-      var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-      var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+      var geometry = new THREE.BoxGeometry( 2, 2, 2 );
+      var material = new THREE.MeshLambertMaterial( {color: 0x00ff00} );
       var cube = new THREE.Mesh( geometry, material );
-      cube.position.set(10, 0, 0)
+      cube.position.set(10, 1, 0)
       scene.add( cube );
 
+      raycaster = new THREE.Raycaster();
+      var intersectables = [];
+      intersectables.push(cube);
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
@@ -156,6 +159,22 @@
       cursor.position.set(camera.position.x + camDir.x * scale, camera.position.y + camDir.y * scale, camera.position.z + camDir.z * scale )
       cursor.position.set(0 + camDir.x * scale, 10 + camDir.y * scale, 0 + camDir.z * scale )
       cursor.lookAt(camera.position)
+
+
+      var gaze = new THREE.Vector3(0, 0, 1);
+
+      //projector.unprojectVector(gaze, camera);
+      gaze.unproject(camera);
+
+      raycaster.set(camera.position,gaze.sub(camera.position).normalize())
+      var intersects = raycaster.intersectObjects( intersectables )
+
+      for ( var i = 0; i < intersects.length; i++ ) {
+
+          intersects[ i ].object.material.color.setRGB(Math.random(),Math.random(),Math.random() );
+  
+      }
+
 
       update(clock.getDelta());
       render(clock.getDelta());
