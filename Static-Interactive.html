@@ -106,7 +106,15 @@
       var geometry = new THREE.RingGeometry( 1, 1.2, 32 );
       var material = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
       var cursor = new THREE.Mesh( geometry, material );
+      cursor.position.set(5, 0, 0);
       scene.add( cursor );
+
+      var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+      var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+      var cube = new THREE.Mesh( geometry, material );
+      cube.position.set(10, 0, 0)
+      scene.add( cube );
+
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
@@ -144,8 +152,8 @@
 
       //Get vector of camera direction and place the cursor along this vector
       camDir = camera.getWorldDirection();
-      scale = 20
-      //cursor.position.set(camera.position.x + camDir.x * scale, camera.position.y + camDir.y * scale, camera.position.z + camDir.z * scale )
+      scale = 10
+      cursor.position.set(camera.position.x + camDir.x * scale, camera.position.y + camDir.y * scale, camera.position.z + camDir.z * scale )
       cursor.position.set(0 + camDir.x * scale, 10 + camDir.y * scale, 0 + camDir.z * scale )
       cursor.lookAt(camera.position)
 
