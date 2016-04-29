@@ -33,10 +33,10 @@
 
     var clock = new THREE.Clock();
 
-    init();
-    animate();
 
-    function init() {
+
+
+
       renderer = new THREE.WebGLRenderer();
       element = renderer.domElement;
       container = document.getElementById('example');
@@ -103,9 +103,17 @@
       mesh.rotation.x = -Math.PI / 2;
       scene.add(mesh);
 
+      var geometry = new THREE.RingGeometry( 1, 1.2, 32 );
+      var material = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
+      var cursor = new THREE.Mesh( geometry, material );
+      scene.add( cursor );
+
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
-    }
+    
+
+
+    animate();
 
     function resize() {
       var width = container.offsetWidth;
@@ -122,16 +130,23 @@
       resize();
 
       camera.updateProjectionMatrix();
-
+      
       controls.update(dt);
     }
 
     function render(dt) {
       effect.render(scene, camera);
+
     }
 
     function animate(t) {
       requestAnimationFrame(animate);
+
+      //Get vector of camera direction and place the cursor along this vector
+      camDir = camera.getWorldDirection();
+      scale = 5
+      cursor.position.set(camera.position.x + camDir.x * scale, camera.position.y + camDir.y * scale, camera.position.z + camDir.z * scale )
+      cursor.lookAt(camera.position)
 
       update(clock.getDelta());
       render(clock.getDelta());
