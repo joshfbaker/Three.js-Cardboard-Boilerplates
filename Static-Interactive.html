@@ -47,7 +47,7 @@
       scene = new THREE.Scene();
 
       camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
-      camera.position.set(0, 10, 0);
+      camera.position.set(0, 20, 0);
       scene.add(camera);
 
       controls = new THREE.OrbitControls(camera, element);
@@ -109,17 +109,17 @@
       cursor.position.set(5, 0, 0);
       scene.add( cursor );
 
-      var geometry = new THREE.BoxGeometry( 2, 2, 2 );
+      var geometry = new THREE.BoxGeometry( 4, 4, 4 );
       var material = new THREE.MeshLambertMaterial( {color: 0x00ff00} );
       var cube = new THREE.Mesh( geometry, material );
-      cube.position.set(10, 1, 0)
+      cube.position.set(20, 1, 0)
       scene.add( cube );
 
       raycaster = new THREE.Raycaster();
       var intersectables = [];
       intersectables.push(cube);
 
-      cursor_counter_constant = 50;
+      cursor_counter_constant = 75;
       cursor_counter = cursor_counter_constant;
 
       window.addEventListener('resize', resize, false);
@@ -158,9 +158,9 @@
 
       //Get vector of camera direction and place the cursor along this vector
       camDir = camera.getWorldDirection();
-      scale = 10
+      scale = 20
       cursor.position.set(camera.position.x + camDir.x * scale, camera.position.y + camDir.y * scale, camera.position.z + camDir.z * scale )
-      cursor.position.set(0 + camDir.x * scale, 10 + camDir.y * scale, 0 + camDir.z * scale )
+      //cursor.position.set(0 + camDir.x * scale, 10 + camDir.y * scale, 0 + camDir.z * scale )
       cursor.lookAt(camera.position)
 
 
