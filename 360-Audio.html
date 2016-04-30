@@ -114,16 +114,26 @@
 
       var audioLoader = new THREE.AudioLoader()
 
+      /*
+      var sound3 = new THREE.PositionalAudio( listener );
+      audioLoader.load( 'sounds/376737_Skullbeatz___Bad_Cat_Maste.ogg', function( buffer ) {
+        sound3.setBuffer( buffer );
+        sound3.setRefDistance( 20 );
+        sound3.play();
+      });
+      cube.add( sound3 );
+      */
+
       var sound3 = new THREE.PositionalAudio( listener );
       var oscillator = listener.context.createOscillator();
       oscillator.type = 'sine';
-      oscillator.frequency.value = 800;
+      oscillator.frequency.value = 500;
       oscillator.start(0);
       sound3.setNodeSource(oscillator);
-      sound3.setRefDistance( 20 );
-      sound3.setVolume(0.5);
+      sound3.setRefDistance( 30 );
+      sound3.setVolume(1);
       cube.add(sound3)
-
+      
       window.addEventListener('touchstart', function() {
         // create empty buffer
         var buffer = listener.context.createBuffer(1, 1, 22050);
