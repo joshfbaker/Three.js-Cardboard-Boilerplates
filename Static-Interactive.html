@@ -119,10 +119,13 @@
       var intersectables = [];
       intersectables.push(cube);
 
+      cursor_counter_constant = 50;
+      cursor_counter = cursor_counter_constant;
+
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
-    
-
+      
+      var currently_intersected;
 
     animate();
 
@@ -166,15 +169,47 @@
       //projector.unprojectVector(gaze, camera);
       gaze.unproject(camera);
 
-      raycaster.set(camera.position,gaze.sub(camera.position).normalize())
-      var intersects = raycaster.intersectObjects( intersectables )
+      raycaster.set(camera.position,gaze.sub(camera.position).normalize());
+      var intersects = raycaster.intersectObjects( intersectables );
 
-      for ( var i = 0; i < intersects.length; i++ ) {
-
-          intersects[ i ].object.material.color.setRGB(Math.random(),Math.random(),Math.random() );
-  
+      //If we're intersecting an object
+      if (intersects.length > 0){
+        //And if that object is the same as the object that was selected on the last interation
+        if (currently_intersected == intersects[0].object){
+        //Start (or continue) counting down
+          cursor_counter -= 1;
+          //As long as we're not down to zero
+          if (cursor_counter > 0){
+            //Shrink the cursor
+            cursor.scale.set(cursor_counter/cursor_counter_constant, cursor_counter/cursor_counter_constant, cursor_counter/cursor_counter_constant);
+          }
+          //We are at zero!  Fire the event
+          else {
+            //Change the color
+            intersects[ 0 ].object.material.color.setRGB(Math.random(),Math.random(),Math.random() );
+            //Now reset the scale and counter
+            cursor.scale.set(1, 1, 1);
+            cursor_counter = cursor_counter_constant;
+          }
+        }
+        //if that object that is selected is not the same as that object that was selected on the interation
+        else {
+          //Reset the scale and counter
+          cursor.scale.set(1, 1, 1);
+          cursor_counter = cursor_counter_constant;
+          //currently_intersected = intersects[0]
+        }
+        //Set the currently intersected object as currently_selected
+        //console.log("Houston we got intersects");
+        currently_intersected = intersects[0].object;  
       }
 
+      //Nothing is selected, set currently_intersected to empty
+      else{
+        currently_intersected = undefined;
+        cursor.scale.set(1, 1, 1);
+        cursor_counter = cursor_counter_constant;
+      }
 
       update(clock.getDelta());
       render(clock.getDelta());
