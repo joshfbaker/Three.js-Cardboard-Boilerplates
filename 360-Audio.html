@@ -124,6 +124,21 @@
       sound3.setVolume(0.5);
       cube.add(sound3)
 
+      window.addEventListener('touchstart', function() {
+        // create empty buffer
+        var buffer = myContext.createBuffer(1, 1, 22050);
+        var source = myContext.createBufferSource();
+        source.buffer = buffer;
+
+        // connect to output (your speakers)
+        source.connect(myContext.destination);
+
+        // play the file
+        source.noteOn(0);
+
+      }, false);
+
+
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
       
