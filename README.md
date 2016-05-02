@@ -5,7 +5,7 @@ Boilerplates include (in order of increasing sophistication):
 
 1.  [360 Picture](http://joshfbaker.github.io/Three.js-Cardboard-Boilerplates/360-Picture.html)
 2.  360 Video (In Progress)
-3.  360 Audio (In Progress)
-4.  ["Static" non-Interactive Scene - front end only, no controls](http://joshfbaker.github.io/Three.js-Cardboard-Boilerplates/Static-non-Interactive.html)
-5.  "Static" Interactive Scene - front end only, with controls for navigation (In Progress)
-6.  "Dynamic" Scene - front end with back end (In Progress)
+3.  [360 Audio](http://joshfbaker.github.io/Three.js-Cardboard-Boilerplates/360-Audio.html)
+4.  [Scene](http://joshfbaker.github.io/Three.js-Cardboard-Boilerplates/Scene.html)
+5.  [Scene with Interaction](http://joshfbaker.github.io/Three.js-Cardboard-Boilerplates/Scene-With-Interaction.html)
+
