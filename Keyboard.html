@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cardboard Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+      body {
+        margin: 0px;
+        overflow: hidden;
+      }
+      #example {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="example"></div>
+
+  <script src="js/third-party/threejs/three_r76.js"></script>
+  <script src="js/third-party/threejs/StereoEffect.js"></script>
+  <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
+  <script src="js/third-party/threejs/OrbitControls.js"></script>
+  
+
+  <script>
+    var camera, scene, renderer;
+    var effect, controls;
+    var element, container;
+
+    var clock = new THREE.Clock();
+
+
+
+
+
+      renderer = new THREE.WebGLRenderer();
+      element = renderer.domElement;
+      container = document.getElementById('example');
+      container.appendChild(element);
+
+      effect = new THREE.StereoEffect(renderer);
+
+      scene = new THREE.Scene();
+
+      camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
+      camera.position.set(0, 20, 0);
+      scene.add(camera);
+
+      controls = new THREE.OrbitControls(camera, element);
+      //controls.rotateUp(Math.PI / 4);
+      controls.target.set(
+        camera.position.x + 0.1,
+        camera.position.y,
+        camera.position.z
+      );
+      controls.noZoom = true;
+      controls.noPan = true;
+
+      function setOrientationControls(e) {
+        if (!e.alpha) {
+          return;
+        }
+
+        controls = new THREE.DeviceOrientationControls(camera, true);
+        controls.connect();
+        controls.update();
+
+        element.addEventListener('click', fullscreen, false);
+
+        window.removeEventListener('deviceorientation', setOrientationControls, true);
+      }
+      window.addEventListener('deviceorientation', setOrientationControls, true);
+
+
+      
+      var light = new THREE.AmbientLight( 0xaaaaaa ); 
+      scene.add( light );
+      var light = new THREE.PointLight( 0xffffff, .6, 100 )
+      light.position.set( 0, 75, 0 );
+      scene.add(light);
+
+      var texture = new THREE.TextureLoader().load( "textures/patterns/checker.png" );
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat = new THREE.Vector2(50, 50);
+      texture.anisotropy = renderer.getMaxAnisotropy();
+
+      var material = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        specular: 0xffffff,
+        shininess: 20,
+        shading: THREE.FlatShading,
+        map: texture
+      });
+
+      var geometry = new THREE.PlaneGeometry(1000, 1000);
+
+      var mesh = new THREE.Mesh(geometry, material);
+      mesh.rotation.x = -Math.PI / 2;
+      scene.add(mesh);
+
+      var geometry = new THREE.RingGeometry( 1, 1.2, 32 );
+      var material = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
+      var cursor = new THREE.Mesh( geometry, material );
+      cursor.position.set(5, 0, 0);
+      scene.add( cursor );
+
+
+
+
+      raycaster = new THREE.Raycaster();
+      var intersectables = [];
+
+    QWERTY = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","Z","X","C","V","B","N","M"];
+
+    var loader = new THREE.FontLoader();
+    loader.load( 'js/third-party/threejs/examples/fonts/helvetiker.js', function ( font ) {
+        for (i=0; i<QWERTY.length; i++){
+          var textGeo = new THREE.TextGeometry( QWERTY[i], {
+              font: font,
+              size: 2, // font size
+              height: .5, // how much extrusion (how thick / deep are the letters)
+              curveSegments: 12,
+              bevelThickness: 1,
+              bevelSize: 1,
+              bevelEnabled: false
+          });
+          var material = new THREE.MeshLambertMaterial( {color: 0x00ff00} );
+          var text = new THREE.Mesh( textGeo, material );
+          if (i<10){
+            text.position.set(20, 20, i*2 - 10)
+          }
+          else if(i<19){
+            text.position.set(20, 15, (i-10)*2 - 10)
+          }
+          else{
+            text.position.set(20, 10, (i-19)*2 - 10)
+          }
+          text.rotation.y = -Math.PI/2;
+          text.name = QWERTY[i];
+          scene.add( text );
+          intersectables.push(text);
+        }
+      });
+
+
+      
+
+      cursor_counter_constant = 75;
+      cursor_counter = cursor_counter_constant;
+
+      window.addEventListener('resize', resize, false);
+      setTimeout(resize, 1);
+      
+      var currently_intersected;
+
+    animate();
+
+    function resize() {
+      var width = container.offsetWidth;
+      var height = container.offsetHeight;
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(width, height);
+      effect.setSize(width, height);
+    }
+
+    function update(dt) {
+      resize();
+
+      camera.updateProjectionMatrix();
+      
+      controls.update(dt);
+    }
+
+    function render(dt) {
+      effect.render(scene, camera);
+
+    }
+
+    function animate(t) {
+      requestAnimationFrame(animate);
+
+      //Get vector of camera direction and place the cursor along this vector
+      camDir = camera.getWorldDirection();
+      scale = 20
+      cursor.position.set(camera.position.x + camDir.x * scale, camera.position.y + camDir.y * scale, camera.position.z + camDir.z * scale )
+      //cursor.position.set(0 + camDir.x * scale, 10 + camDir.y * scale, 0 + camDir.z * scale )
+      cursor.lookAt(camera.position)
+
+
+      var gaze = new THREE.Vector3(0, 0, 1);
+
+      //projector.unprojectVector(gaze, camera);
+      gaze.unproject(camera);
+
+      raycaster.set(camera.position,gaze.sub(camera.position).normalize());
+      var intersects = raycaster.intersectObjects( intersectables );
+
+      //If we're intersecting an object
+      if (intersects.length > 0){
+        //And if that object is the same as the object that was selected on the last interation
+        if (currently_intersected == intersects[0].object){
+        //Start (or continue) counting down
+          cursor_counter -= 1;
+          //As long as we're not down to zero
+          if (cursor_counter > 0){
+            //Shrink the cursor
+            cursor.scale.set(cursor_counter/cursor_counter_constant, cursor_counter/cursor_counter_constant, cursor_counter/cursor_counter_constant);
+          }
+          //We are at zero!  Fire the event
+          else {
+            //Change the color
+            intersects[ 0 ].object.material.color.setRGB(Math.random(),Math.random(),Math.random() );
+            console.log(intersects[0].object.name);
+            //Now reset the scale and counter
+            cursor.scale.set(1, 1, 1);
+            cursor_counter = cursor_counter_constant;
+          }
+        }
+        //if that object that is selected is not the same as that object that was selected on the interation
+        else {
+          //Reset the scale and counter
+          cursor.scale.set(1, 1, 1);
+          cursor_counter = cursor_counter_constant;
+          //currently_intersected = intersects[0]
+        }
+        //Set the currently intersected object as currently_selected
+        //console.log("Houston we got intersects");
+        currently_intersected = intersects[0].object;  
+      }
+
+      //Nothing is selected, set currently_intersected to empty
+      else{
+        currently_intersected = undefined;
+        cursor.scale.set(1, 1, 1);
+        cursor_counter = cursor_counter_constant;
+      }
+
+      update(clock.getDelta());
+      render(clock.getDelta());
+    }
+
+    function fullscreen() {
+      if (container.requestFullscreen) {
+        container.requestFullscreen();
+      } else if (container.msRequestFullscreen) {
+        container.msRequestFullscreen();
+      } else if (container.mozRequestFullScreen) {
+        container.mozRequestFullScreen();
+      } else if (container.webkitRequestFullscreen) {
+        container.webkitRequestFullscreen();
+      }
+    }
+  </script>
+  </body>
+</html>
