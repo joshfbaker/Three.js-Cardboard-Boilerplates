@@ -104,6 +104,15 @@
       mesh.rotation.x = -Math.PI / 2;
       scene.add(mesh);
 
+      // Add black background implemented as a photosphere
+      var sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(100, 20, 20),
+      new THREE.MeshBasicMaterial({
+        map: THREE.ImageUtils.loadTexture('images/black.png')
+      }));
+      sphere.scale.x = -1;
+      scene.add(sphere);
+
       var geometry = new THREE.RingGeometry( 1, 1.2, 32 );
       var material = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
       var cursor = new THREE.Mesh( geometry, material );
