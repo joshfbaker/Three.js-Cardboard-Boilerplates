@@ -130,12 +130,14 @@
       raycaster = new THREE.Raycaster();
       var intersectables = [];
 
-    QWERTY = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","Z","X","C","V","B","N","M"];
+    //keyboard = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","Z","X","C","V","B","N","M"];
+
+    keyboard = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
     var loader = new THREE.FontLoader();
     loader.load( 'js/third-party/threejs/examples/fonts/helvetiker.js', function ( font ) {
-        for (i=0; i<QWERTY.length; i++){
-          var textGeo = new THREE.TextGeometry( QWERTY[i], {
+        for (i=0; i<keyboard.length; i++){
+          var textGeo = new THREE.TextGeometry( keyboard[i], {
               font: font,
               size: 2, // font size
               height: .5, // how much extrusion (how thick / deep are the letters)
@@ -156,7 +158,7 @@
             text.position.set(20, 10, (i-19)*2 - 10)
           }
           text.rotation.y = -Math.PI/2;
-          text.name = QWERTY[i];
+          text.name = keyboard[i];
           scene.add( text );
           intersectables.push(text);
         }
